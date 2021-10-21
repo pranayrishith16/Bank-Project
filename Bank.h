@@ -1,4 +1,5 @@
 #include<iostream>
+#include<iomanip>
 #include<cstring>
 #include<fstream>
 #include<string>
@@ -37,7 +38,7 @@ class Bank{
 void Bank::openAcc(){
     int n;
     cout<<"Name:";
-    // cin.ignore();
+    cin.ignore();
     cin.getline(depositorName_,50);
     cout<<"Enter your desired Account Number: ";
     cin>>accountNumber_;
@@ -59,15 +60,17 @@ void Bank::openAcc(){
     }
     cout<<"Enter initial Deposit: ";
     cin>>balanceAmount_;
-    cout<<depositorName_<<endl;
+    cout<<"\nCreated Account"<<endl;
+    this->showData();
 }
 
 void Bank::showData(){
-    cout<<"Details:"<<endl;
-    cout<<accountNumber_<<endl;
-    cout<<depositorName_<<endl;
-    cout<<accountType_<<endl;
-    cout<<balanceAmount_<<endl;
+    cout<<accountNumber_<<setw(15)<<depositorName_<<setw(12)<<accountType_<<setw(10)<<balanceAmount_<<endl;
+    // cout<<"\nDetails:"<<endl;
+    // cout<<"Account Number: "<<accountNumber_<<setw(10);
+    // cout<<"Name: "<<depositorName_<<setw(10);
+    // cout<<"Account Type: "<<accountType_<<setw(10);
+    // cout<<"Balance: "<<balanceAmount_<<endl;
 }
 
 int Bank::withdraw(){
@@ -83,6 +86,7 @@ int Bank::withdraw(){
     }
     else{
         this->balanceAmount_ -= withdraw;
+        this->showData();
         return withdraw;
     }
 }
@@ -92,5 +96,6 @@ int Bank::deposit(){
     cout<<"Enter amount to deposit";
     cin>>amount;
     this->balanceAmount_ += amount;
+    this->showData();
     return amount;
 }

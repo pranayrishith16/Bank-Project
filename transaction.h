@@ -11,6 +11,7 @@ class Transaction{
     public:
     void showTransactions();
     void addTransactions(int ,char[],float);
+    int getAccountNumber();
 };
 
 
@@ -24,4 +25,8 @@ void Transaction::showTransactions(){
     cout<<"Account Number: "<<accountNumber_<<endl;
     cout<<"Type: "<<typeOfTransaction_<<endl;
     cout<<"Amount: "<<amount<<endl;
+}
+
+int Transaction::getAccountNumber(){
+    return this->accountNumber_;
 }
