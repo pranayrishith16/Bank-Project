@@ -1,6 +1,34 @@
 /*
 Author: Pranay Rishith
 Date: 18th Oct
+
+Banking System Management
+Design a project to represent a bank account and its relevant operations, where following details
+can be maintained:
+1. Depositor name,
+2. account number(you may define any starting number),
+3. type of account,
+4. balance amount in the account.
+
+Actions:
+1. Add new customers to the bank who become an account holder.
+2. Display a list of all the account holders of the bank along with their account numbers and
+balance.
+3. Delete the information related to the account holder from the customer data file
+4. Update the balance after customer has performed a deposit or withdraw transaction
+5. display the account number of the last entry
+6. check whether an account exists or not
+7. retrieve the name of the account holder
+8. retrieve the address of the account holder
+9. retrieve the balance of the account holder
+10. returns the record number from the customer file when an employee of the bank enters
+the account number related to an account holder(Transaction details along with the
+account information)
+11. displays all the information related to an account holder from the customer file on the
+basis of specified account number.
+12. Calculate the interest to date on the deposit if a particular customer has not withdrawn
+for more than a month
+
 */
 
 
@@ -23,7 +51,7 @@ void allTransactions(); //to show transaction history
 void closeAccount(); //to delete account
 void getAccount(); //to get details of specific account
 void getTransactions(int); //to get transaction for account holder
-void getRecordNumber(); 
+void getRecordNumber(); //to get record number with transactions details
 
 
 int main(){
@@ -31,7 +59,7 @@ int main(){
     int n;
     cout<<"Welcome to the BANK"<<endl;
     do{
-        cout<<"\nMAIN MENU\n1.Open An account\n2.Deposit\n3.Withdraw\n4.Check Balance\n5.Get Account Details\n6.All Accounts\n7.Close account\n8.Record Number\n9.Exit"<<endl;
+        cout<<"\nMAIN MENU\n1.Open An account\n2.Deposit\n3.Withdraw\n4.Check Balance\n5.Get Account Details\n6.All Accounts\n7.Close account\n8.Record Number\n9.All Transactions\n10.Exit"<<endl;
         cout<<"Enter Choice: ";
         cin>>n;
         switch(n){
@@ -59,8 +87,10 @@ int main(){
             case 8:
                 getRecordNumber();
                 break;
+            case 9:
+                allTransactions();
         }
-    }while(n<9);
+    }while(n<10);
 
 }
 
