@@ -31,6 +31,15 @@ for more than a month
 
 */
 
+/*
+Some important points:
+fstream is used universally for both reading and writing
+ios::binary is used to read in binary
+ios::in is used for read operations
+ios::out is used for write operations
+ios::app is used to append at end of file but append is not used cause the changes are mostly inbetween
+*/
+
 
 #include<iostream>
 #include<cstring>
@@ -97,9 +106,9 @@ int main(){
 void openAccount(){
     fstream outFile1,outFile2;
     char temp[] = "Deposit";
-    outFile1.open("accountDetails",ios::binary|ios::in|ios::out);
+    outFile1.open("accountDetails",ios::binary|ios::in|ios::out|ios::app);
     Transaction t;
-    outFile2.open("transactionData",ios::binary|ios::in|ios::out);
+    outFile2.open("transactionData",ios::binary|ios::in|ios::out|ios::app);
     Bank b;
     cout<<"\nEnter your Details"<<endl;
     b.openAcc();
@@ -137,7 +146,7 @@ void withdrawAmount(){
     char temp[] = "Withdraw";
     Transaction t;
     inFile.open("accountDetails",ios::binary|ios::in|ios::out);
-    inFile2.open("transactionData",ios::binary|ios::in|ios::out);
+    inFile2.open("transactionData",ios::binary|ios::in|ios::out|ios::app);
     cout<<"Enter your account number: ";
     cin>>accNo;
     while(inFile.read((char*)&b,sizeof(Bank))){
@@ -152,16 +161,16 @@ void withdrawAmount(){
     }
     else{
         int amt = b.withdraw();
-    if(amt != 0){
-        pos = (-1)*sizeof(Bank); //the pointer is on end of the object to to get back multiplying with -1 to get current object location
-        inFile.seekp(pos,ios::cur);
-        inFile.write((char*)&b,sizeof(Bank));
-        t.addTransactions(b.getAccountNumber(),temp,amt);
-        inFile.write((char*)&t,sizeof(Transaction));
-        inFile.close();
-        inFile2.close();
+        if(amt != 0){
+            pos = (-1)*sizeof(Bank); //the pointer is on end of the object to to get back multiplying with -1 to get current object location
+            inFile.seekp(pos,ios::cur);
+            inFile.write((char*)&b,sizeof(Bank));
+            t.addTransactions(b.getAccountNumber(),temp,amt);
+            inFile2.write((char*)&t,sizeof(Transaction));
+            inFile.close();
+            inFile2.close();
         }
-    }
+    } 
 }
 
 //to deposit amount
@@ -179,7 +188,7 @@ void depositAmount(){
     char temp[] = "Deposit";
     Transaction t;
     inFile.open("accountDetails",ios::binary|ios::in|ios::out);
-    outFile.open("transactionData",ios::binary|ios::in|ios::out);
+    outFile.open("transactionData",ios::binary|ios::in|ios::out|ios::app);
     cout<<"Enter your account number: ";
     cin>>accNo;
     while(inFile.read((char*)&b,sizeof(Bank))){
@@ -297,8 +306,9 @@ void getRecordNumber(){
         cout<<"There is no account with this account Number"<<endl;
         return;
     }
-    cout<<"Record Number: "<<count+1<<endl;
+    cout<<"\nRecord Number: "<<count+1<<endl;
     getTransactions(accNo);
+    cout<<"\n";
 }
 
 //to get transactions details on specific account

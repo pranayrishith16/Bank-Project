@@ -1,15 +1,15 @@
 #include<iostream>
-#include<iomanip>
 #include<cstring>
 #include<fstream>
 #include<string>
 using namespace std;
 
+//class bank
 class Bank{
-    char depositorName_[50];
-    int accountNumber_;
-    char accountType_[8];
-    float balanceAmount_ = 0;
+    char depositorName_[50]; //depositor name
+    int accountNumber_; //account number
+    char accountType_[8]; //type of account either savings or current
+    float balanceAmount_ = 0; //balance
 
     public:
     string getDepositorName(){
@@ -34,6 +34,7 @@ class Bank{
     int deposit();
 };
 
+//to open account
 void Bank::openAcc(){
     int n;
     cout<<"Name:";
@@ -63,11 +64,13 @@ void Bank::openAcc(){
     this->showData();
 }
 
+//to get details
 void Bank::showData(){
     cout<<"\n";
     cout<<"Account Number: "<<accountNumber_<<"\tName: "<<depositorName_<<"\tAccount Type: "<<accountType_<<"\tBalance: "<<balanceAmount_<<endl;
 }
 
+//for withdraw
 int Bank::withdraw(){
     // check if the balance is greater than withdrawl amount
     // mofify the amount
@@ -81,16 +84,21 @@ int Bank::withdraw(){
     }
     else{
         this->balanceAmount_ -= withdraw;
+        cout<<"Successful Withdraw\nDetails\n\n";
         this->showData();
+        cout<<"\n";
         return withdraw;
     }
 }
 
+//for deposit
 int Bank::deposit(){
     int amount;
     cout<<"Enter amount to deposit";
     cin>>amount;
     this->balanceAmount_ += amount;
+    cout<<"Successful Withdraw\nDetails\n\n";
     this->showData();
+    cout<<"\n";
     return amount;
 }
