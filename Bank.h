@@ -12,7 +12,6 @@ class Bank{
     float balanceAmount_ = 0;
 
     public:
-    static int setAccountNumber;
     string getDepositorName(){
         return this->depositorName_;
     }
@@ -65,12 +64,8 @@ void Bank::openAcc(){
 }
 
 void Bank::showData(){
-    cout<<accountNumber_<<setw(15)<<depositorName_<<setw(12)<<accountType_<<setw(10)<<balanceAmount_<<endl;
-    // cout<<"\nDetails:"<<endl;
-    // cout<<"Account Number: "<<accountNumber_<<setw(10);
-    // cout<<"Name: "<<depositorName_<<setw(10);
-    // cout<<"Account Type: "<<accountType_<<setw(10);
-    // cout<<"Balance: "<<balanceAmount_<<endl;
+    cout<<"\n";
+    cout<<"Account Number: "<<accountNumber_<<"\tName: "<<depositorName_<<"\tAccount Type: "<<accountType_<<"\tBalance: "<<balanceAmount_<<endl;
 }
 
 int Bank::withdraw(){

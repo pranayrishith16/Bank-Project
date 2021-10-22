@@ -45,7 +45,6 @@ void getDetails(); //to get details of the account holder
 void allAccounts(); //to display all the accounts in the bank
 void withdrawAmount(); //to withdraw amount
 void depositAmount(); //to deposit amount
-void getName(); //to return name of the account holder
 void getBalance(); //to return balance of the account holder
 void allTransactions(); //to show transaction history
 void closeAccount(); //to delete account
@@ -94,32 +93,36 @@ int main(){
 
 }
 
-
+//to open account
 void openAccount(){
-    ofstream outFile;
-    outFile.open("accountDetails",ios::binary|ios::app);
+    fstream outFile1,outFile2;
+    char temp[] = "Deposit";
+    outFile1.open("accountDetails",ios::binary|ios::in|ios::out);
+    Transaction t;
+    outFile2.open("transactionData",ios::binary|ios::in|ios::out);
     Bank b;
     cout<<"\nEnter your Details"<<endl;
     b.openAcc();
-    outFile.write((char*)&b,sizeof(Bank));
-    outFile.close();
+    t.addTransactions(b.getAccountNumber(),temp,b.getBalance());
+    outFile2.write((char*)&t,sizeof(Transaction));
+    outFile1.write((char*)&b,sizeof(Bank));
+    outFile1.close();
+    outFile2.close();
 }
 
-
+//to get all account details
 void allAccounts(){
-    ifstream inFile;
-    inFile.open("accountDetails",ios::binary);
+    fstream inFile;
+    inFile.open("accountDetails",ios::binary|ios::in);
     Bank b;
-    cout<<"\n\n\t\tACCOUNT HOLDER LIST\n\n";
-	cout<<"====================================================\n";
-	cout<<"AccNo.      NAME      Type        Balance\n";
-	cout<<"====================================================\n";
+    cout<<"\n\n\t\tACCOUNT HOLDER LIST";
     while(inFile.read((char*)&b,sizeof(Bank))){
         b.showData();
     }
     inFile.close();
 }
 
+//to withdraw amount
 void withdrawAmount(){
     // open file
     // read file and get objects
@@ -161,6 +164,7 @@ void withdrawAmount(){
     }
 }
 
+//to deposit amount
 void depositAmount(){
     // open file
     // read file and get objects
@@ -170,13 +174,12 @@ void depositAmount(){
     // if found change the balance amount and delete the present entry and include new data into the file
     // close the file
     int accNo,flag = 0,pos;
-    fstream inFile;
-    ofstream outFile;
+    fstream inFile,outFile;
     Bank b;
     char temp[] = "Deposit";
     Transaction t;
     inFile.open("accountDetails",ios::binary|ios::in|ios::out);
-    outFile.open("transactionData",ios::binary|ios::app);
+    outFile.open("transactionData",ios::binary|ios::in|ios::out);
     cout<<"Enter your account number: ";
     cin>>accNo;
     while(inFile.read((char*)&b,sizeof(Bank))){
@@ -199,31 +202,12 @@ void depositAmount(){
     outFile.close();
 }
 
-void getName(){
-    int accNo,flag=0;
-    fstream inFile;
-    Bank b;
-    inFile.open("accountDetails",ios::binary|ios::in|ios::out);
-    cout<<"Enter your account number: ";
-    cin>>accNo;
-    while(inFile.read((char*)&b,sizeof(Bank))){
-        if(b.getAccountNumber() == accNo){
-			flag = 1;
-            break;
-        }
-    }
-    if (flag == 0){
-        cout<<"There is no account with this account Number"<<endl;
-        return;
-    }
-    cout<<b.getDepositorName();
-}
-
+//to get balance
 void getBalance(){
     int accNo,flag=0;
     fstream inFile;
     Bank b;
-    inFile.open("accountDetails",ios::binary|ios::in|ios::out);
+    inFile.open("accountDetails",ios::binary|ios::in);
     cout<<"Enter your account number: ";
     cin>>accNo;
     while(inFile.read((char*)&b,sizeof(Bank))){
@@ -239,9 +223,10 @@ void getBalance(){
     cout<<"\nBalance: "<<b.getBalance()<<"\n";
 }
 
+//to get all transactions made in the bank
 void allTransactions(){
-    ifstream inFile;
-    inFile.open("transactionData",ios::binary);
+    fstream inFile;
+    inFile.open("transactionData",ios::binary|ios::in);
     Transaction t;
     while(inFile.read((char*)&t,sizeof(Transaction))){
         t.showTransactions();
@@ -249,12 +234,13 @@ void allTransactions(){
     inFile.close();
 }
 
+//to close an account
 void closeAccount(){
     int accno;
     Bank b;
     fstream file1,file2;
     file1.open("accountDetails",ios::binary);
-    file2.open("tempFile",ios::binary);
+    file2.open("tempFile",ios::binary|ios::in|ios::out);
     cout<<"Enter your account Number: ";
     cin>>accno;
     while(file1.read((char*)&b,sizeof(Bank))){
@@ -269,10 +255,11 @@ void closeAccount(){
     cout<<"\nAccount Deleted";
 }
 
+//to get account details
 void getAccount(){
     Bank b;
     fstream inFile;
-    inFile.open("accountDetails",ios::binary);
+    inFile.open("accountDetails",ios::binary|ios::in);
     int accNo,flag=0;
     cout<<"Enter account Number: ";
     cin>>accNo;
@@ -289,10 +276,11 @@ void getAccount(){
     b.showData();
 }
 
+//to get record number
 void getRecordNumber(){
     Bank b;
     fstream inFile;
-    inFile.open("accountDetails",ios::binary);
+    inFile.open("accountDetails",ios::binary|ios::in);
     int accNo,flag=0,count = 0;
     cout<<"Enter account Number: ";
     cin>>accNo;
@@ -313,10 +301,11 @@ void getRecordNumber(){
     getTransactions(accNo);
 }
 
+//to get transactions details on specific account
 void getTransactions(int accno=100000){
-    ifstream inFile;
+    fstream inFile;
     int flag=0;
-    inFile.open("transactionData",ios::binary);
+    inFile.open("transactionData",ios::binary|ios::in);
     if (accno == 100000){
         cout<<"Enter your account Number: ";
         cin>>accno;
